@@ -9,6 +9,11 @@ submitBtn.addEventListener("click",function(){
     // get input value
     const input = document.getElementById("input");
     const inputValue = input.value ;
+    if (!inputValue) {
+        console.log('ple')
+        alert("enter text")
+        return
+    }
     input.value = ""
     // create new list
     const newlist = {
@@ -20,7 +25,6 @@ submitBtn.addEventListener("click",function(){
     setValueLocalStorage(newlist)
     creatItems(newlist)
     removeLocalStorage()
-    // displayItem()
 })
     
 }
@@ -37,8 +41,13 @@ function getElementLocalstorage(){
 function setValueLocalStorage(newlist){
     const previousData = getElementLocalstorage();
     previousData.push(newlist)
-    // console.log(previousData)
-    localStorage.setItem("listContainer",JSON.stringify(previousData))
+   
+
+    if ( newlist.text.length > 0) {
+        
+        localStorage.setItem("listContainer",JSON.stringify(previousData))
+    }
+
 
 }
 
@@ -56,7 +65,10 @@ function creatItems(element){
     const txt = document.createTextNode("✘");
     span.appendChild(txt)
     li.appendChild(span)
-    continer.appendChild(li)
+    // if (li.innerText.length > 0) {
+        
+        continer.appendChild(li)
+    // }
 }
 
 // display list-item 
@@ -64,7 +76,11 @@ function displayItem(){
     const allitems = getElementLocalstorage();
     // console.log(allitems)
     for (const element of allitems) {
-        creatItems(element)
+        const text = element.text; 
+        console.log(text)
+        if (text.length > 0) {
+            creatItems(element); 
+        }
     }
 }
 
